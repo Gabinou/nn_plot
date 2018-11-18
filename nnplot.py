@@ -17,7 +17,7 @@ class Neuron():
 
 
 class Layer():
-    def __init__(self, network, number_of_neurons, number_of_neurons_in_widest_layer, neuron_radius, weights, line_colors, neuron_color):
+    def __init__(self, network, number_of_neurons, number_of_neurons_in_widest_layer, neuron_radius, line_weights, line_colors, neuron_color):
         self.vertical_distance_between_layers = 6
         self.horizontal_distance_between_neurons = 2
         self.neuron_radius = neuron_radius
@@ -26,7 +26,7 @@ class Layer():
         self.y = self.__calculate_layer_y_position()
         self.neurons = self.__intialise_neurons(
             number_of_neurons, neuron_color)
-        self.weights = weights
+        self.line_weights = line_weights
         self.line_colors = line_colors
 
     def __intialise_neurons(self, number_of_neurons, neuron_color='k'):
@@ -54,13 +54,13 @@ class Layer():
         else:
             return None
 
-    def __line_between_two_neurons(self, neuron1, neuron2, weight=1, linecolor='k'):
+    def __line_between_two_neurons(self, neuron1, neuron2, line_weight=1, linecolor='k'):
         angle = np.arctan((neuron2.x - neuron1.x) /
                           float(neuron2.y - neuron1.y))
         x_adjustment = self.neuron_radius * np.sin(angle)
         y_adjustment = self.neuron_radius * np.cos(angle)
         line = plt.Line2D((neuron1.x - x_adjustment, neuron2.x + x_adjustment),
-                          (neuron1.y - y_adjustment, neuron2.y + y_adjustment), alpha=weight, color=linecolor)
+                          (neuron1.y - y_adjustment, neuron2.y + y_adjustment), alpha=line_weight, color=linecolor)
         plt.gca().add_line(line)
 
     def draw(self, layerType=0):
@@ -70,10 +70,10 @@ class Layer():
             if self.previous_layer:
                 for previous_layer_neuron_index in range(len(self.previous_layer.neurons)):
                     previous_layer_neuron = self.previous_layer.neurons[previous_layer_neuron_index]
-                    if isinstance(self.previous_layer.weights, int):
-                        weight = self.previous_layer.weights
+                    if isinstance(self.previous_layer.line_weights, int):
+                        line_weight = self.previous_layer.line_weights
                     else:
-                        weight = self.previous_layer.weights[this_layer_neuron_index,
+                        line_weight = self.previous_layer.line_weights[this_layer_neuron_index,
                                                              previous_layer_neuron_index]
                     if isinstance(self.previous_layer.line_colors, str):
                         linecolor = self.previous_layer.line_colors
@@ -81,7 +81,7 @@ class Layer():
                         linecolor = self.previous_layer.line_colors[this_layer_neuron_index,
                                                                     previous_layer_neuron_index]
                     self.__line_between_two_neurons(
-                        neuron, previous_layer_neuron, weight, linecolor)
+                        neuron, previous_layer_neuron, line_weight, linecolor)
         # write Text
         x_text = self.number_of_neurons_in_widest_layer * \
             self.horizontal_distance_between_neurons
@@ -101,9 +101,9 @@ class NeuralNetwork():
         self.layertype = 0
         self.neuron_radius = neuron_radius
 
-    def add_layer(self, number_of_neurons, neuron_radius=0.5, weights=1, line_colors='k', neuron_color='k'):
+    def add_layer(self, number_of_neurons, neuron_radius=0.5, line_weights=1, line_colors='k', neuron_color='k'):
         layer = Layer(self, number_of_neurons, self.number_of_neurons_in_widest_layer,
-                      neuron_radius, weights, line_colors, neuron_color)
+                      neuron_radius, line_weights, line_colors, neuron_color)
         self.layers.append(layer)
 
     def draw(self):
@@ -124,12 +124,13 @@ class NeuralNetwork():
 
 
 network = NeuralNetwork(10)
-# weights to convert from 10 outputs to 4 (decimal digits to their binary representation)
-weights1 = np.array([[0, 0, 0, 0, 1, 0.3, 0, 0, 1, 1],
+# line_weights to convert from 10 outputs to 4 (decimal digits to their binary representation)
+line_weights1 = np.array([[0, 0, 0, 0, 1, 0.3, 0, 0, 1, 1],
                      [0, 0, 0, 0, 1, 1, 1, 1, 0, 0],
                      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
                      [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]])
-network.add_layer(10, weights=weights1, line_colors='b')
+print(line_weights1.shape)
+network.add_layer(10, line_weights=line_weights1, line_colors='b')
 network.add_layer(4, neuron_color='b')
 network.add_layer(1)
 network.draw()
