@@ -136,7 +136,6 @@ class Layer():
                                                                     previous_layer_neuron_index]
                     self.__line_two_neurons(
                         neuron, previous_layer_neuron, line_weight, linecolor)
-        # write Text
         if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'):
             x_text = self.neuron_num_widest * self.distance_neurons
             if layerType == 0:
@@ -171,7 +170,7 @@ class NeuralNetwork():
                       line_weights, line_colors, neuron_color, neuron_text)
         self.layers.append(layer)
 
-    def draw(self, title=''):
+    def draw(self):
         plt.figure(figsize=(10, 6))
         for i in range(len(self.layers)):
             layer = self.layers[i]
@@ -180,9 +179,7 @@ class NeuralNetwork():
             layer.draw(i)
         plt.axis('scaled')
         plt.axis('off')
-        plt.title(title, fontsize=15)
         plt.gcf().tight_layout()
-        plt.show()
 
 
 network = NeuralNetwork(10)
@@ -197,4 +194,5 @@ network.add_layer(10, line_weights=line_weights1,
                   line_colors='b', neuron_text=neuron_text1)
 network.add_layer(4, neuron_color='b', )
 network.add_layer(1)
-network.draw(, title='')
+network.draw()
+plt.show()
