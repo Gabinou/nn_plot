@@ -4,7 +4,7 @@ New classes are introduced that enable the plotting of neurons, any number of co
 
 This was created using code originally published on StackOverflow by users Milo, OliBlum and DenisFlash at: [https://stackoverflow.com/questions/29888233/how-to-visualize-a-neural-network].
 
-The code was intended to print neuron networks vertically, from the input layer (IL) at the bottom to the output layer (OL) at the top. It has been pruned and modified to accomodate printing text in neurons, stacking neurons vertically or horizontally, etc.
+The code was intended to print neuron networks vertically, from the input layer (IL) at the bottom to the output layer (OL) at the top. It has been modified to accomodate printing text in neurons, stacking neurons vertically or horizontally, etc.
 
 Some features listed here are not implemented yet, and the code is still quite messy and prone to change.
 
