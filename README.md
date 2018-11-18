@@ -2,7 +2,7 @@
 
 New classes are introduced that enable the plotting of neurons, any number of connexions, with weights represented by transparency.
 
-This was created using code originally published on StackOverflow by users Milo and DenisFlash at: [https://stackoverflow.com/questions/29888233/how-to-visualize-a-neural-network].
+This was created using code originally published on StackOverflow by users Milo, OliBlum and DenisFlash at: [https://stackoverflow.com/questions/29888233/how-to-visualize-a-neural-network].
 
 The code was intended to print neuron networks vertically, from the input layer (IL) at the bottom to the output layer (OL) at the top.
 
