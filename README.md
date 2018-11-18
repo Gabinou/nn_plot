@@ -11,7 +11,9 @@ Some features listed here are not implemented yet, and the code is still quite m
 # Classes
 ### `NeuralNetwork`
 
-Main class meant to be interacted with, to plot neural networks. For now, on instance initialization the number of neurons in the wides layer must be specified. Then, the `add_layer` method can be used to create any number of layers, with the number of neurons in this new line the only necessary input. The first added layer using this method is the IL, and the last the OL. By default, the IL, hidden layers (HLs) and OL are automatically labelled, and the HLs numbered. The drawn NN orientation can be specified with the `direction` keyword argument. Starting from the IL, `direction`  = `bottomtotop`, `toptobottom`, `righttoleft`, `lefttoright`.
+Main class meant to be interacted with, to plot neural networks. For now, on instance initialization the number of neurons in the wides layer must be specified. The `neuron_radius` can also be specified.  The drawn NN orientation can be specified with the `direction` keyword argument. Starting from the IL, `direction`  = `bottomtotop`, `toptobottom`, `righttoleft`, `lefttoright`.
+
+Then, the `add_layer` method can be used to create any number of layers, with the number of neurons in this new line the only necessary input. The first added layer using this method is the IL, and the last the OL. By default, the IL, hidden layers (HLs) and OL are automatically labelled, and the HLs numbered.
 
 In the `add_layer` method,
 - the `line_color` (of lines that go from the current neuron layer to the next) can be specified using a string or an numpy.array of strings of shape (current layer neuron number, next layer neuron number).
