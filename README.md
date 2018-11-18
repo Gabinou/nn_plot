@@ -22,7 +22,7 @@ In the `add_layer` method,
 - `neuron_weights` (NOT YET IMPLEMENTED) can be specified using a float between 0 and one or a list of length equal to the number of neurons.
 - `neuron_text`  can be specified using a string a list of length of length equal to the number of neurons.
 
-Finally, the `draw` method is used to plot all layers. Other plotting things (plt.show(), title insertion, figure saving, etc.) are left to the user.
+Finally, the `draw` method is used to plot all layers. Other plotting operations (plt.show(), title insertion, figure saving, etc.) are left to the user.
 
 ### `Layer`
 Layer object class. Not meant to be interacted with by the user.
