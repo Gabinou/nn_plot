@@ -26,7 +26,7 @@ Layer object class. Not meant to be interacted with by the user.
 
 A great number of parameters must be specified on initialization. Quite messy. Will probably be pruned somehow in the future.
 
-## `Neuron`
+### `Neuron`
 Neuron object class. Not meant to be interacted with by the user.
 
 Specifiy its position and color on initialization. `draw` method used to draw it on a previously initialized figure.
