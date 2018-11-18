@@ -17,34 +17,50 @@ class Neuron():
 
 
 class Layer():
-    def __init__(self, network, number_of_neurons, number_of_neurons_in_widest_layer, neuron_radius, line_weights, line_colors, neuron_color):
-        self.vertical_distance_between_layers = 6
-        self.horizontal_distance_between_neurons = 2
+    def __init__(self, network, neuron_num, neuron_num_widest, neuron_radius, line_weights, line_colors, neuron_color):
+        
+        self.layer_distance = 6
+        self.distance_neurons = 2
         self.neuron_radius = neuron_radius
-        self.number_of_neurons_in_widest_layer = number_of_neurons_in_widest_layer
+        self.neuron_num_widest = neuron_num_widest
         self.previous_layer = self.__get_previous_layer(network)
-        self.y = self.__calculate_layer_y_position()
-        self.neurons = self.__intialise_neurons(
-            number_of_neurons, neuron_color)
+        self.direction = network.direction
+        if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'):  
+            self.y = self.__layer_position()
+        elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
+            self.x = self.__layer_position()
+        self.neurons = self.__intialise_neurons(neuron_num, neuron_color)
         self.line_weights = line_weights
         self.line_colors = line_colors
 
-    def __intialise_neurons(self, number_of_neurons, neuron_color='k'):
+    def __intialise_neurons(self, neuron_num, neuron_color='k'):
         neurons = []
-        x = self.__calculate_left_margin_so_layer_is_centered(
-            number_of_neurons)
-        for iteration in range(number_of_neurons):
-            neuron = Neuron(x, self.y, neuron_color)
+        if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'):  
+            self.x = self.__lmargin_for_centering(neuron_num)
+        elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
+            self.y = self.__lmargin_for_centering(neuron_num)
+        for iteration in range(neuron_num):
+            neuron = Neuron(self.x, self.y, neuron_color)
             neurons.append(neuron)
-            x += self.horizontal_distance_between_neurons
+            if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'): 
+                self.x += self.distance_neurons
+            elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
+                self.y += self.distance_neurons
         return neurons
 
-    def __calculate_left_margin_so_layer_is_centered(self, number_of_neurons):
-        return self.horizontal_distance_between_neurons * (self.number_of_neurons_in_widest_layer - number_of_neurons) / 2
+    def __lmargin_for_centering(self, neuron_num):
+        return self.distance_neurons * (self.neuron_num_widest - neuron_num) / 2
 
-    def __calculate_layer_y_position(self):
+    def __layer_position(self):
         if self.previous_layer:
-            return self.previous_layer.y + self.vertical_distance_between_layers
+            if (self.direction == 'bottomtotop'):
+                return self.previous_layer.y + self.layer_distance
+            elif (self.direction == 'toptobottom'): 
+                return self.previous_layer.y - self.layer_distance
+            elif (self.direction == 'lefttoright'): 
+                return self.previous_layer.x + self.layer_distance
+            elif (self.direction == 'righttoleft'):   
+                return self.previous_layer.x - self.layer_distance  
         else:
             return 0
 
@@ -54,13 +70,40 @@ class Layer():
         else:
             return None
 
-    def __line_between_two_neurons(self, neuron1, neuron2, line_weight=1, linecolor='k'):
-        angle = np.arctan((neuron2.x - neuron1.x) /
-                          float(neuron2.y - neuron1.y))
-        x_adjustment = self.neuron_radius * np.sin(angle)
-        y_adjustment = self.neuron_radius * np.cos(angle)
-        line = plt.Line2D((neuron1.x - x_adjustment, neuron2.x + x_adjustment),
-                          (neuron1.y - y_adjustment, neuron2.y + y_adjustment), alpha=line_weight, color=linecolor)
+    def __line_two_neurons(self, neuron1, neuron2, line_weight=1, linecolor='k'):
+        if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'): 
+            angle = np.arctan((neuron2.x - neuron1.x) /
+                              float(neuron2.y - neuron1.y))
+            x_adjustment = self.neuron_radius * np.sin(angle)
+            y_adjustment = self.neuron_radius * np.cos(angle)
+        elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
+            angle = np.arctan((neuron2.y - neuron1.y) /
+                              float(neuron2.x - neuron1.x))
+            x_adjustment = self.neuron_radius * np.cos(angle) 
+            y_adjustment = self.neuron_radius * np.sin(angle)
+        if (self.direction == 'bottomtotop'):
+            line_x1 = neuron1.x - x_adjustment
+            line_x2 = neuron2.x + x_adjustment
+            line_y1 = neuron1.y - y_adjustment
+            line_y2 = neuron2.y + y_adjustment
+        elif (self.direction == 'toptobottom'):
+            line_x1 = neuron1.x + x_adjustment
+            line_x2 = neuron2.x - x_adjustment
+            line_y1 = neuron1.y + y_adjustment
+            line_y2 = neuron2.y - y_adjustment
+        if (self.direction == 'lefttoright'):
+            line_x1 = neuron1.x - x_adjustment
+            line_x2 = neuron2.x + x_adjustment
+            line_y1 = neuron1.y - y_adjustment
+            line_y2 = neuron2.y + y_adjustment
+        elif (self.direction == 'righttoleft'):
+            line_x1 = neuron1.x + x_adjustment
+            line_x2 = neuron2.x - x_adjustment
+            line_y1 = neuron1.y + y_adjustment
+            line_y2 = neuron2.y - y_adjustment
+        line = plt.Line2D((line_x1, line_x2),
+                          (line_y1, line_y2), 
+                          alpha=line_weight, color=linecolor)
         plt.gca().add_line(line)
 
     def draw(self, layerType=0):
@@ -80,29 +123,39 @@ class Layer():
                     else:
                         linecolor = self.previous_layer.line_colors[this_layer_neuron_index,
                                                                     previous_layer_neuron_index]
-                    self.__line_between_two_neurons(
+                    self.__line_two_neurons(
                         neuron, previous_layer_neuron, line_weight, linecolor)
         # write Text
-        x_text = self.number_of_neurons_in_widest_layer * \
-            self.horizontal_distance_between_neurons
-        if layerType == 0:
-            plt.text(x_text, self.y, 'Input Layer', fontsize=12)
-        elif layerType == -1:
-            plt.text(x_text, self.y, 'Output Layer', fontsize=12)
-        else:
-            plt.text(x_text, self.y, 'Hidden Layer ' +
-                     str(layerType), fontsize=12)
-
+        if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'): 
+            x_text = self.neuron_num_widest * self.distance_neurons
+            if layerType == 0:
+                plt.text(x_text, self.y, 'Input Layer', fontsize=12)
+            elif layerType == -1:
+                plt.text(x_text, self.y, 'Output Layer', fontsize=12)
+            else:
+                plt.text(x_text, self.y, 'Hidden Layer ' +
+                         str(layerType), fontsize=12)
+        elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
+            y_text = self.neuron_num_widest * self.distance_neurons
+            x_text = self.x - self.distance_neurons
+            if layerType == 0:
+                plt.text(x_text, y_text, 'Input Layer', fontsize=12)
+            elif layerType == -1:
+                plt.text(x_text, y_text, 'Output Layer', fontsize=12)
+            else:
+                plt.text(x_text, y_text, 'Hidden Layer ' +
+                         str(layerType), fontsize=12)
 
 class NeuralNetwork():
-    def __init__(self, number_of_neurons_in_widest_layer, neuron_radius=0.5):
-        self.number_of_neurons_in_widest_layer = number_of_neurons_in_widest_layer
+    def __init__(self, neuron_num_widest, neuron_radius=0.5, direction='lefttoright'):
+        self.neuron_num_widest = neuron_num_widest
         self.layers = []
         self.layertype = 0
+        self.direction = direction
         self.neuron_radius = neuron_radius
 
-    def add_layer(self, number_of_neurons, neuron_radius=0.5, line_weights=1, line_colors='k', neuron_color='k'):
-        layer = Layer(self, number_of_neurons, self.number_of_neurons_in_widest_layer,
+    def add_layer(self, neuron_num, neuron_radius=0.5, line_weights=1, line_colors='k', neuron_color='k'):
+        layer = Layer(self, neuron_num, self.neuron_num_widest,
                       neuron_radius, line_weights, line_colors, neuron_color)
         self.layers.append(layer)
 

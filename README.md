@@ -8,13 +8,13 @@ The code was intended to print neuron networks vertically, from the input layer 
 
 It has been pruned and modified to accomodate printing text in neurons, rotating the neuron stack, etc.
 
-Some features listed here are not implemented yet, and the codebase is still quite messy and prone to change.
+Some features listed here are not implemented yet, and the code is still quite messy and prone to change.
 
 
 # Classes
 ### `NeuralNetwork`
 
-Main class meant to be interacted with to easily plot neural networks. For now, on instance initialization the number of neurons in the wides layer must be specified. Then, the `add_layer` method can be used to create any number of layers. By default, the IL, hidden layers (HLs) and OL are automatically labelled. 
+Main class meant to be interacted with to easily plot neural networks. For now, on instance initialization the number of neurons in the wides layer must be specified. Then, the `add_layer` method can be used to create any number of layers, with the number of neurons the only necessary input. By default, the IL, hidden layers (HLs) and OL are automatically labelled, and the HLs numbered.
 
 In the `add_layer` method,
 -the `line_color` and `neuron_color` can be specified using a string or an numpy.array of strings/floats between 0 and 1 (of shape (current layer neurons, next layer neurons)) if the individual object color needs to be specified.
