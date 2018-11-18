@@ -4,24 +4,26 @@ import matplotlib.pyplot as plt
 
 
 class Neuron():
-    def __init__(self, x, y, color='k'):
+    def __init__(self, x, y, color='k', text=''):
         self.x = x
         self.y = y
         self.color = color
+        self.text = text
 
-    def draw(self, neuron_radius):
+    def draw(self, neuron_radius=0.5):
         circle = plt.Circle(
             (self.x, self.y), radius=neuron_radius, color=self.color, fill=False)
-        plt.text(self.x-0.3, self.y-0.1, '0.1')
+        plt.text(self.x-0.3, self.y-0.1, self.text)
         plt.gca().add_patch(circle)
 
 
 class Layer():
-    def __init__(self, network, neuron_num, neuron_num_widest, neuron_radius, line_weights, line_colors, neuron_color):
+    def __init__(self, network, neuron_num, neuron_num_widest, neuron_radius, line_weights, line_colors, neuron_color, neuron_text):
         
         self.layer_distance = 6
         self.distance_neurons = 2
         self.neuron_radius = neuron_radius
+        self.neuron_text = neuron_text
         self.neuron_num_widest = neuron_num_widest
         self.previous_layer = self.__get_previous_layer(network)
         self.direction = network.direction
@@ -29,18 +31,26 @@ class Layer():
             self.y = self.__layer_position()
         elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
             self.x = self.__layer_position()
-        self.neurons = self.__intialise_neurons(neuron_num, neuron_color)
+        self.neurons = self.__intialise_neurons(neuron_num, neuron_color, neuron_text)
         self.line_weights = line_weights
         self.line_colors = line_colors
 
-    def __intialise_neurons(self, neuron_num, neuron_color='k'):
+    def __intialise_neurons(self, neuron_num, neuron_color='k', neuron_text=''):
         neurons = []
         if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'):  
             self.x = self.__lmargin_for_centering(neuron_num)
         elif (self.direction == 'righttoleft') or (self.direction == 'lefttoright'):
             self.y = self.__lmargin_for_centering(neuron_num)
         for iteration in range(neuron_num):
-            neuron = Neuron(self.x, self.y, neuron_color)
+            if isinstance(neuron_color, str):
+                color = neuron_color
+            else:
+                color = neuron_color[iteration]
+            if isinstance(neuron_text, str):
+                text = neuron_text
+            else:
+                text = neuron_text[iteration]
+            neuron = Neuron(self.x, self.y, color, text)
             neurons.append(neuron)
             if (self.direction == 'bottomtotop') or (self.direction == 'toptobottom'): 
                 self.x += self.distance_neurons
@@ -153,10 +163,10 @@ class NeuralNetwork():
         self.layertype = 0
         self.direction = direction
         self.neuron_radius = neuron_radius
-
-    def add_layer(self, neuron_num, neuron_radius=0.5, line_weights=1, line_colors='k', neuron_color='k'):
-        layer = Layer(self, neuron_num, self.neuron_num_widest,
-                      neuron_radius, line_weights, line_colors, neuron_color)
+ 
+    def add_layer(self, neuron_num, neuron_radius=0.5, line_weights=1, line_colors='k', neuron_color='k', neuron_text=''):
+        layer = Layer(self, neuron_num, self.neuron_num_widest, neuron_radius,
+                      line_weights, line_colors, neuron_color, neuron_text)
         self.layers.append(layer)
 
     def draw(self):
@@ -182,8 +192,9 @@ line_weights1 = np.array([[0, 0, 0, 0, 1, 0.3, 0, 0, 1, 1],
                      [0, 0, 0, 0, 1, 1, 1, 1, 0, 0],
                      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
                      [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]])
+neuron_text1 = np.array(['0.1', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
 print(line_weights1.shape)
-network.add_layer(10, line_weights=line_weights1, line_colors='b')
-network.add_layer(4, neuron_color='b')
+network.add_layer(10, line_weights=line_weights1, line_colors='b', neuron_text=neuron_text1)
+network.add_layer(4, neuron_color='b', )
 network.add_layer(1)
 network.draw()
