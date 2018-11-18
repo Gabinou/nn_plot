@@ -171,7 +171,7 @@ class NeuralNetwork():
         self.layers.append(layer)
 
     def draw(self):
-        plt.figure(figsize=(10, 6))
+        plt.figure()
         for i in range(len(self.layers)):
             layer = self.layers[i]
             if i == len(self.layers)-1:
