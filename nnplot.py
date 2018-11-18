@@ -180,19 +180,3 @@ class NeuralNetwork():
         plt.axis('scaled')
         plt.axis('off')
         plt.gcf().tight_layout()
-
-
-network = NeuralNetwork(10)
-# line_weights to convert from 10 outputs to 4 (decimal digits to their binary representation)
-line_weights1 = np.array([[0, 0, 0, 0, 1, 0.3, 0, 0, 1, 1],
-                          [0, 0, 0, 0, 1, 1, 1, 1, 0, 0],
-                          [0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-                          [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]])
-neuron_text1 = np.array(['0.1', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
-print(line_weights1.shape)
-network.add_layer(10, line_weights=line_weights1,
-                  line_colors='b', neuron_text=neuron_text1)
-network.add_layer(4, neuron_color='b', )
-network.add_layer(1)
-network.draw()
-plt.show()
