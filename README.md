@@ -31,7 +31,7 @@ Neuron object class. Not meant to be interacted with by the user.
 
 Specifiy its position and color on initialization. `draw` method used to draw it on a previously initialized figure.
 
-# Keywords:
+Keywords:
 Neural Network visualization, plotting, matplotlib,
 
 
