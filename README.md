@@ -17,9 +17,9 @@ Then, the `add_layer` method can be used to create any number of layers, with th
 
 In the `add_layer` method,
 - the `line_color` (of lines that go from the current neuron layer to the next) can be specified using a string or an numpy.array of strings of shape (current layer neuron number, next layer neuron number).
-- `neuron_color` (NOT YET IMPLEMENTED)  ibid. `line-color`.
+- `neuron_color` ibid. `line-color`.
 - the `line_weigths` (of lines that go from the current layer to the next) can be specified using a float or an numpy.array of strings/floats between 0 and 1 of shape (current layer neuron number, next layer neuron number), if needed.
-- `neuron_weights` (NOT YET IMPLEMENTED) can be specified using a float between 0 and one or a list of length equal to the number of neurons.
+- `neuron_weights` can be specified using a float between 0 and one or a list of length equal to the number of neurons.
 - `neuron_text`  can be specified using a string a list of length of length equal to the number of neurons.
 
 Finally, the `draw` method is used to plot all layers. Other plotting operations (plt.show(), title insertion, figure saving, eatc.) are left to the user.
