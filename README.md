@@ -1,6 +1,6 @@
 # nnplot: Neural network visualization with Matplotlib
 
-New classes are introduced that enable the plotting of neurons, any number of connexions, with weights represented by transparency.
+New classes are introduced that enable the plotting of neurons, any number of connexions, with weights represented by transparency. Requires `matplotlib` and `numpy`.
 
 This was created using code originally published on StackOverflow by users Milo, OliBlum and DenisFlash at: [https://stackoverflow.com/questions/29888233/how-to-visualize-a-neural-network].
 
