@@ -4,14 +4,14 @@ New classes are introduced that enable the plotting of neurons, any number of co
 
 This was created using code originally published on StackOverflow by users Milo, OliBlum and DenisFlash at: [https://stackoverflow.com/questions/29888233/how-to-visualize-a-neural-network].
 
-The code was intended to print neuron networks vertically, from the input layer (IL) at the bottom to the output layer (OL) at the top. It has been modified to accomodate printing text in neurons, stacking neurons vertically or horizontally, etc.
+The code was intended to print neuron networks vertically, from the input layer (IL) at the bottom to the output layer (OL) at the top. It has been modified to accomodate printing text in neurons, stacking neurons vertically or horizontally and changing the colors of neurons and lines.
 
-Some features listed here are not implemented yet, and the code is still quite messy and prone to change.
+The code is still quite messy, but functional
 
 # Classes
 ### `NeuralNetwork`
 
-Main class meant to be interacted with, to plot neural networks. For now, on instance initialization the number of neurons in the wides layer must be specified. The `neuron_radius` can also be specified.  The drawn NN orientation can be specified with the `direction` keyword argument. Starting from the IL, `direction`  = `bottomtotop`, `toptobottom`, `righttoleft`, `lefttoright`.
+Main class meant to be interacted with, to plot neural networks. For now, on instance initialization the number of neurons in the wides layer must be specified as the first and only necessary argument. The `neuron_radius` can also be specified.  The drawn NN orientation can be specified with the `direction` keyword argument. Starting from the IL, `direction`  = `bottomtotop`, `toptobottom`, `righttoleft`, `lefttoright`.
 
 Then, the `add_layer` method can be used to create any number of layers, with the number of neurons in this new line the only necessary input. The first added layer using this method is the IL, and the last the OL. By default, the IL, hidden layers (HLs) and OL are automatically labelled, and the HLs numbered.
 
@@ -22,7 +22,7 @@ In the `add_layer` method,
 - `neuron_weights` can be specified using a float between 0 and one or a list of length equal to the number of neurons.
 - `neuron_text`  can be specified using a string a list of length of length equal to the number of neurons.
 
-Finally, the `draw` method is used to plot all layers. Other plotting operations (plt.show(), title insertion, figure saving, eatc.) are left to the user.
+Finally, the `draw` method is used to plot all layers. Other plotting operations (plt.show(), title insertion, figure saving, etc.) are left to the user.
 
 ### `Layer`
 Layer object class. Not meant to be interacted with by the user.
