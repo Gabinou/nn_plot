@@ -6,7 +6,7 @@ This was created using code originally published on StackOverflow by users Milo,
 
 The code was intended to print neuron networks vertically, from the input layer (IL) at the bottom to the output layer (OL) at the top. It has been modified to accomodate printing text in neurons, stacking neurons vertically or horizontally and changing the colors of neurons and lines.
 
-The code is still quite messy, but functional
+The code is still quite messy, but functional.
 
 # Classes
 ### `NeuralNetwork`
